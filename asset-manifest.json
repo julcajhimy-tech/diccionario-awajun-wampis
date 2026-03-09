@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/diccionario-awajun-wampis/static/css/main.44d4e011.css",
+    "main.js": "/diccionario-awajun-wampis/static/js/main.b58ef157.js",
+    "index.html": "/diccionario-awajun-wampis/index.html",
+    "main.44d4e011.css.map": "/diccionario-awajun-wampis/static/css/main.44d4e011.css.map",
+    "main.b58ef157.js.map": "/diccionario-awajun-wampis/static/js/main.b58ef157.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.44d4e011.css",
+    "static/js/main.b58ef157.js"
+  ]
+}
