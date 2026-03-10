@@ -91,27 +91,33 @@ export const useDiccionario = () => {
 
     if (!q) return lista.slice(0, 50); // Mostrar primeras 50 si no hay búsqueda
 
-    // Filtra la lista buscando solo en el idioma de origen seleccionado
-    return lista.filter(e =>
-      normalizar(e[idiomaOrigen]).includes(q)
-    )
-    // Ordena los resultados para priorizar las coincidencias exactas
-    .sort((a, b) => {
-      // Comprueba si 'a' es una coincidencia exacta en el idioma de origen
-      const aIsExact = normalizar(a[idiomaOrigen]) === q;
-      // Comprueba si 'b' es una coincidencia exacta en el idioma de origen
-      const bIsExact = normalizar(b[idiomaOrigen]) === q;
+    // Expresión regular para buscar la palabra completa.
+    const regex = new RegExp(`\\b${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
 
-      if (aIsExact && !bIsExact) {
-        return -1; // 'a' viene antes que 'b'
-      }
-      if (!aIsExact && bIsExact) {
-        return 1; // 'b' viene antes que 'a'
-      }
-      return 0; // El orden no cambia si ambos son del mismo tipo (exacto o parcial)
+    // Filtra la lista buscando en el idioma de origen Y el de destino.
+    const filteredList = lista.filter(e =>
+      (e[idiomaOrigen] && regex.test(normalizar(e[idiomaOrigen]))) ||
+      (e[idiomaDestino] && regex.test(normalizar(e[idiomaDestino])))
+    );
+
+    // Ordena los resultados para dar prioridad a las coincidencias.
+    return filteredList.sort((a, b) => {
+      const qExact = q; // q ya está normalizado
+
+      // Función de puntuación: más alto es mejor.
+      const getScore = (entry) => {
+        if (entry[idiomaOrigen] && normalizar(entry[idiomaOrigen]) === qExact) return 4; // Coincidencia exacta en origen
+        if (entry[idiomaDestino] && normalizar(entry[idiomaDestino]) === qExact) return 3; // Coincidencia exacta en destino
+        if (entry[idiomaOrigen] && regex.test(normalizar(entry[idiomaOrigen]))) return 2; // Coincidencia parcial en origen
+        if (entry[idiomaDestino] && regex.test(normalizar(entry[idiomaDestino]))) return 1; // Coincidencia parcial en destino
+        return 0;
+      };
+
+      // Ordenar de mayor a menor puntuación.
+      return getScore(b) - getScore(a);
     })
     .slice(0, 100);
-  }, [busqueda, categoriaActiva, idiomaOrigen]);
+  }, [busqueda, categoriaActiva, idiomaOrigen, idiomaDestino]);
 
   // ── Acciones ──
   const toggleFavorito = useCallback((id) => {

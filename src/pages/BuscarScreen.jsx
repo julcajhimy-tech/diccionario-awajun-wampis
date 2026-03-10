@@ -128,6 +128,8 @@ const BuscarScreen = ({ state }) => {
               onToggleFavorite={toggleFavorito}
               onSelect={seleccionarPalabra}
               darkMode={darkMode}
+              idiomaOrigen={idiomaOrigen}
+              idiomaDestino={idiomaDestino}
             />
           ))
         ) : (

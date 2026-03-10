@@ -2,7 +2,7 @@
 import React, { memo } from 'react';
 import { IDIOMAS } from '../utils/constants';
 
-const WordCard = memo(({ entrada, isFavorite, onToggleFavorite, onSelect, darkMode }) => {
+const WordCard = memo(({ entrada, isFavorite, onToggleFavorite, onSelect, darkMode, idiomaOrigen, idiomaDestino }) => {
   const surface = darkMode ? '#1C2B10' : '#FFFFFF';
   const border = darkMode ? '#2D4418' : '#E8F5E9';
   const text = darkMode ? '#E8F5E9' : '#1A1A1A';
@@ -49,10 +49,10 @@ const WordCard = memo(({ entrada, isFavorite, onToggleFavorite, onSelect, darkMo
               fontSize: '17px', fontWeight: '600',
               fontFamily: "'Playfair Display', serif",
             }}>
-              {entrada.es}
+              {entrada[idiomaOrigen]}
             </h3>
             <p style={{ margin: '3px 0 0', fontSize: '11px', color: sub, fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              {entrada.cat} {entrada.gram && `· ${entrada.gram}`}
+              {entrada.cat}
             </p>
           </div>
           <button
@@ -70,15 +70,14 @@ const WordCard = memo(({ entrada, isFavorite, onToggleFavorite, onSelect, darkMo
           </button>
         </div>
 
-        {/* Idiomas */}
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-          {['en', 'aw', 'wa'].map(key => {
-            const idioma = IDIOMAS[key];
-            const valor = entrada[key];
-            if (!valor) return null;
+        {/* Traducción al idioma destino */}
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '12px' }}>
+          {(() => {
+            const idioma = IDIOMAS[idiomaDestino];
+            const valor = entrada[idiomaDestino];
+            if (!valor || !idioma) return null;
             return (
               <span
-                key={key}
                 style={{
                   backgroundColor: darkMode ? `${idioma.color}25` : idioma.bg,
                   color: idioma.color,
@@ -93,7 +92,7 @@ const WordCard = memo(({ entrada, isFavorite, onToggleFavorite, onSelect, darkMo
                 {valor}
               </span>
             );
-          })}
+          })()}
         </div>
       </div>
     </article>
