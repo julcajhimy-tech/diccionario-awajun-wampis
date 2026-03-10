@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/diccionario-awajun-wampis/static/css/main.44d4e011.css",
-    "main.js": "/diccionario-awajun-wampis/static/js/main.4ccb54fd.js",
+    "main.js": "/diccionario-awajun-wampis/static/js/main.f25aec71.js",
     "index.html": "/diccionario-awajun-wampis/index.html",
     "main.44d4e011.css.map": "/diccionario-awajun-wampis/static/css/main.44d4e011.css.map",
-    "main.4ccb54fd.js.map": "/diccionario-awajun-wampis/static/js/main.4ccb54fd.js.map"
+    "main.f25aec71.js.map": "/diccionario-awajun-wampis/static/js/main.f25aec71.js.map"
   },
   "entrypoints": [
     "static/css/main.44d4e011.css",
-    "static/js/main.4ccb54fd.js"
+    "static/js/main.f25aec71.js"
   ]
 }
