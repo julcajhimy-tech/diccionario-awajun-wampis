@@ -91,19 +91,16 @@ export const useDiccionario = () => {
 
     if (!q) return lista.slice(0, 50); // Mostrar primeras 50 si no hay búsqueda
 
-    // Filtra la lista para encontrar todas las coincidencias (exactas y parciales)
+    // Filtra la lista buscando solo en el idioma de origen seleccionado
     return lista.filter(e =>
-      normalizar(e.es).includes(q) ||
-      normalizar(e.en).includes(q) ||
-      normalizar(e.aw).includes(q) ||
-      normalizar(e.wa).includes(q)
+      normalizar(e[idiomaOrigen]).includes(q)
     )
     // Ordena los resultados para priorizar las coincidencias exactas
     .sort((a, b) => {
-      // Comprueba si 'a' es una coincidencia exacta
-      const aIsExact = normalizar(a.es) === q || normalizar(a.en) === q || normalizar(a.aw) === q || normalizar(a.wa) === q;
-      // Comprueba si 'b' es una coincidencia exacta
-      const bIsExact = normalizar(b.es) === q || normalizar(b.en) === q || normalizar(b.aw) === q || normalizar(b.wa) === q;
+      // Comprueba si 'a' es una coincidencia exacta en el idioma de origen
+      const aIsExact = normalizar(a[idiomaOrigen]) === q;
+      // Comprueba si 'b' es una coincidencia exacta en el idioma de origen
+      const bIsExact = normalizar(b[idiomaOrigen]) === q;
 
       if (aIsExact && !bIsExact) {
         return -1; // 'a' viene antes que 'b'
@@ -114,7 +111,7 @@ export const useDiccionario = () => {
       return 0; // El orden no cambia si ambos son del mismo tipo (exacto o parcial)
     })
     .slice(0, 100);
-  }, [busqueda, categoriaActiva]);
+  }, [busqueda, categoriaActiva, idiomaOrigen]);
 
   // ── Acciones ──
   const toggleFavorito = useCallback((id) => {
