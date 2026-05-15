@@ -46,7 +46,8 @@ const DetalleScreen = ({ state }) => {
   const handleCorrect = () => {
     const baseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeu1E-9HgVhoCnbQB7ngVLjz11ANJ9X2G7s-KLlOqyr3ParJw/viewform?usp=pp_url';
     const palabraActual = entrada.es || '';
-    const url = `${baseUrl}&entry.1078445539=${encodeURIComponent(palabraActual)}`;
+    // ID definitivo para el campo "CORRIGE LA PALABRA"
+    const url = `${baseUrl}&entry.1196990598=${encodeURIComponent(palabraActual)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
