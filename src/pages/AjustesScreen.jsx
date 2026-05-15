@@ -140,7 +140,9 @@ const AjustesScreen = ({ state }) => {
             right={<span style={{ color: textSub, fontSize: '12px' }}>v{VERSION}</span>}
           />
           <Item icon="🎓" label="Tesis de Licenciatura · EIB" />
-          <Item icon="🌿" label="Preservación de lenguas amazónicas" isLast />
+          <Item icon="🌿" label="Preservación de lenguas amazónicas" />
+          <Item icon="💾" label="Base de datos Colaborativa" onClick={() => window.open('https://sites.google.com/unibagua.edu.pe/palabrascolaborativas/inicio', '_blank', 'noopener,noreferrer')} />
+          <Item icon="🆔" label="Orcid" onClick={() => window.open('https://orcid.org/0009-0006-1920-8639', '_blank', 'noopener,noreferrer')} isLast />
         </Section>
 
         <p style={{

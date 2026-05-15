@@ -193,7 +193,7 @@ El campo `source` acepta:
 
 ## 📄 Licencia
 
-MIT © 2025. Proyecto académico de preservación lingüística.
+MIT © 2026. Proyecto académico de preservación lingüística.
 
 El contenido lingüístico proviene de fuentes publicadas con fines educativos.
 Se reconoce y agradece el trabajo de los autores originales de los diccionarios fuente.
