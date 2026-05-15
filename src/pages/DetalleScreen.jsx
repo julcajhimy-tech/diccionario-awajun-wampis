@@ -2,6 +2,14 @@
 import React from 'react';
 import { IDIOMAS } from '../utils/constants';
 
+const getTitleFontSize = (text = '') => {
+  const len = text.length;
+  if (len > 30) return '22px';
+  if (len > 20) return '26px';
+  if (len > 12) return '32px';
+  return '36px';
+};
+
 const DetalleScreen = ({ state }) => {
   const {
     palabraSeleccionada: entrada,
@@ -35,73 +43,89 @@ const DetalleScreen = ({ state }) => {
     }
   };
 
+  const handleCorrect = () => {
+    const baseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeu1E-9HgVhoCnbQB7ngVLjz11ANJ9X2G7s-KLlOqyr3ParJw/viewform?usp=pp_url';
+    const palabraActual = entrada.es || '';
+    const url = `${baseUrl}&entry.1078445539=${encodeURIComponent(palabraActual)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: bg }}>
       {/* Header */}
       <div style={{
         paddingTop: '52px', paddingBottom: '28px',
-        paddingLeft: '20px', paddingRight: '20px',
+        paddingLeft: '16px', paddingRight: '16px',
         background: 'linear-gradient(160deg, #1A3A08, #4A7C23)',
-        textAlign: 'center', position: 'relative',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: '12px',
+        boxSizing: 'border-box',
+        width: '100%',
+        minHeight: '150px',
       }}>
         {/* Botón volver */}
         <button
           onClick={() => setPantalla('buscar')}
           aria-label="Volver"
           style={{
-            position: 'absolute', left: '16px', top: '52px',
             background: 'rgba(255,255,255,0.15)', border: 'none',
             borderRadius: '10px', padding: '8px 12px',
             color: 'white', fontSize: '16px', cursor: 'pointer',
+            flexShrink: 0,
           }}
         >
           ← Volver
         </button>
+
+        {/* Title and Tags Block */}
+        <div style={{ flexGrow: 1, textAlign: 'center', minWidth: 0 }}>
+          <h1 style={{
+            color: 'white', margin: '0',
+            fontFamily: "'Playfair Display', serif",
+            fontSize: getTitleFontSize(entrada.es),
+            fontWeight: '700',
+            letterSpacing: '-1px',
+            lineHeight: 1.2,
+          }}>
+            {entrada.es}
+          </h1>
+          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '10px' }}>
+            {entrada.cat && (
+              <span style={{
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                color: 'white', padding: '5px 14px',
+                borderRadius: '20px', fontSize: '12px', fontWeight: '500',
+              }}>
+                {entrada.cat}
+              </span>
+            )}
+            {entrada.gram && (
+              <span style={{
+                backgroundColor: 'rgba(255,255,255,0.12)',
+                color: 'rgba(255,255,255,0.85)', padding: '5px 14px',
+                borderRadius: '20px', fontSize: '12px', fontStyle: 'italic',
+              }}>
+                {entrada.gram}
+              </span>
+            )}
+          </div>
+        </div>
 
         {/* Favorito */}
         <button
           onClick={() => toggleFavorito(entrada.id)}
           aria-label={isFav ? 'Quitar favorito' : 'Agregar favorito'}
           style={{
-            position: 'absolute', right: '16px', top: '52px',
             background: 'rgba(255,255,255,0.15)', border: 'none',
             borderRadius: '10px', padding: '8px 12px',
             fontSize: '20px', cursor: 'pointer',
+            flexShrink: 0,
           }}
         >
           {isFav ? '⭐' : '☆'}
         </button>
-
-        {/* Título */}
-        <h1 style={{
-          color: 'white', margin: '16px 0 6px',
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '36px', fontWeight: '700',
-          letterSpacing: '-1px',
-        }}>
-          {entrada.es}
-        </h1>
-
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {entrada.cat && (
-            <span style={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              color: 'white', padding: '5px 14px',
-              borderRadius: '20px', fontSize: '12px', fontWeight: '500',
-            }}>
-              {entrada.cat}
-            </span>
-          )}
-          {entrada.gram && (
-            <span style={{
-              backgroundColor: 'rgba(255,255,255,0.12)',
-              color: 'rgba(255,255,255,0.85)', padding: '5px 14px',
-              borderRadius: '20px', fontSize: '12px', fontStyle: 'italic',
-            }}>
-              {entrada.gram}
-            </span>
-          )}
-        </div>
       </div>
 
       {/* Cuerpo scrollable */}
@@ -131,9 +155,10 @@ const DetalleScreen = ({ state }) => {
                       {item.label}
                     </p>
                     <p style={{
-                      margin: '2px 0 0', fontSize: '18px', fontWeight: '600',
+                      margin: '2px 0 0', fontSize: '16px', fontWeight: '600',
                       color: idioma.color,
                       fontFamily: item.key === 'es' ? 'inherit' : "'Playfair Display', serif",
+                      lineHeight: 1.4,
                     }}>
                       {item.valor}
                     </p>
@@ -230,6 +255,22 @@ const DetalleScreen = ({ state }) => {
             }}
           >
             📤 Compartir
+          </button>
+
+          <button
+            onClick={handleCorrect}
+            style={{
+              flex: 1, padding: '14px',
+              background: darkMode ? '#1C2B10' : '#F9FBE7',
+              border: `1px solid ${border}`,
+              borderRadius: '14px',
+              color: sub,
+              fontSize: '14px', fontWeight: '600',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            ✍️ Corregir
           </button>
         </div>
       </div>
